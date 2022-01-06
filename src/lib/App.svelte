@@ -9,6 +9,8 @@
 	let tweets: Tweet[] = []
 
 	const sendTweet = async () => {
+		content = content.trim()
+
 		if (content.length < 1) {
 			toast.push('Tweet cannot be empty fam!')
 			return

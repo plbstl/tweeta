@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { walletAddress } from '$lib/stores'
+	import { SvelteToast } from '@zerodevx/svelte-toast'
 	import 'sanitize.css'
 	import 'sanitize.css/assets.css'
 	import 'sanitize.css/forms.css'
@@ -41,5 +42,9 @@
 		return () => window.removeEventListener('load', onLoad)
 	})
 </script>
+
+<div class="toast-wrap">
+	<SvelteToast />
+</div>
 
 <slot />

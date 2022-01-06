@@ -41,3 +41,12 @@
 	font-size: 20px;
 	height: 50px;
 }
+
+.toast-wrap {
+	display: contents;
+	font-size: 0.73rem;
+}
+
+.toast-wrap :global(strong) {
+	font-weight: 600;
+}

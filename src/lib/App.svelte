@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Avatar from '$lib/Avatar.svelte'
+	import { toast } from '@zerodevx/svelte-toast'
 	import { TEST_TWEETS } from './data'
 	import { walletAddress } from './stores'
 
@@ -9,12 +10,12 @@
 
 	const sendTweet = async () => {
 		if (content.length < 1) {
-			alert('Tweet cannot be empty fam!')
+			toast.push('Tweet cannot be empty fam!')
 			return
 		}
 
 		tweets = [{ name, content }, ...tweets]
-		alert(`You tweeted "${content}"`)
+		toast.push(`You tweeted "${content}"`)
 		content = ''
 	}
 

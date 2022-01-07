@@ -42,8 +42,10 @@
 
 	{#each tweets as { name, content }}
 		<article>
-			<!-- @todo: add correct links to tweet name -->
-			<a class="owner" href="#">
+			<a
+				class="owner"
+				href={`https://explorer.solana.com/address/${name}/domains?cluster=testnet`}
+			>
 				<Avatar
 					size={25}
 					{name}

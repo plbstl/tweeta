@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script lang="ts">
 	import { getBoolean, getContrast, getRandomColor, getUnit, hashCode } from '$lib/utils'
 	import { onMount } from 'svelte'

@@ -1,76 +1,11 @@
 <script lang="ts">
 	import App from '$lib/App.svelte'
-	import { INSTRUCTIONS } from '$lib/data'
 	import Modal from '$lib/Modal.svelte'
+	import { copyWalletModal } from '$lib/modals'
 	import { walletAddress } from '$lib/stores'
-	import confetti from 'canvas-confetti'
-	import { closeAllModals, Modals, openModal } from 'svelte-modals'
+	import { connectWallet } from '$lib/wallet'
+	import { closeAllModals, Modals } from 'svelte-modals'
 	import { fade } from 'svelte/transition'
-
-	const copyWalletModal = () => {
-		const INDEX = 0
-		openModal(Modal, {
-			...INSTRUCTIONS[INDEX],
-			backBtnDisabled: true,
-			prevModal: () => {},
-			nextModal: () => {
-				solfaucetModal()
-			},
-		})
-	}
-
-	const solfaucetModal = () => {
-		const INDEX = 1
-		openModal(Modal, {
-			...INSTRUCTIONS[INDEX],
-			prevModal: () => {
-				copyWalletModal()
-			},
-			nextModal: () => {
-				walletNetworkModal()
-			},
-		})
-	}
-
-	const walletNetworkModal = () => {
-		const INDEX = 2
-		openModal(Modal, {
-			...INSTRUCTIONS[INDEX],
-			prevModal: () => {
-				solfaucetModal()
-			},
-			nextModal: () => {
-				selectNetworkModal()
-			},
-		})
-	}
-
-	const selectNetworkModal = () => {
-		const INDEX = 3
-		openModal(Modal, {
-			...INSTRUCTIONS[INDEX],
-			nextBtnDisabled: true,
-			prevModal: () => {
-				walletNetworkModal()
-			},
-			nextModal: () => {},
-		})
-	}
-
-	const connectWallet = async () => {
-		const { solana } = window
-
-		if (solana) {
-			const response = await solana.connect()
-			console.log('Connected with Public Key:', response.publicKey.toString())
-			walletAddress.set(response.publicKey.toString())
-			confetti({
-				particleCount: 100,
-				spread: 150,
-				origin: { y: 0 },
-			})
-		}
-	}
 
 	let walletAddress_value: string
 
@@ -89,7 +24,7 @@
 
 		<button
 			on:click={() => {
-				copyWalletModal()
+				copyWalletModal(Modal)
 			}}
 		>
 			** Instructions to fund wallet **
@@ -99,8 +34,6 @@
 	<Modals>
 		<div slot="backdrop" class="backdrop" transition:fade on:click={closeAllModals} />
 	</Modals>
-
-	<!-- @todo: add option to disconnect wallet -->
 
 	{#if walletAddress_value}
 		<App />

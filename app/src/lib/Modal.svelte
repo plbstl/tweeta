@@ -1,10 +1,12 @@
+<svelte:options immutable />
+
 <script lang="ts">
 	import Image from 'svelte-image'
 	import { fade } from 'svelte/transition'
 
 	export let isOpen: boolean
 	export let backBtnDisabled = false
-	export let nextBtnDisabled: boolean = false
+	export let nextBtnDisabled = false
 	export let steps: string[]
 	export let imageUrl: string
 	export let title: string

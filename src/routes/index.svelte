@@ -1,7 +1,61 @@
 <script lang="ts">
 	import App from '$lib/App.svelte'
+	import { INSTRUCTIONS } from '$lib/data'
+	import Modal from '$lib/Modal.svelte'
 	import { walletAddress } from '$lib/stores'
 	import confetti from 'canvas-confetti'
+	import { closeAllModals, Modals, openModal } from 'svelte-modals'
+	import { fade } from 'svelte/transition'
+
+	const copyWalletModal = () => {
+		const INDEX = 0
+		openModal(Modal, {
+			...INSTRUCTIONS[INDEX],
+			backBtnDisabled: true,
+			prevModal: () => {},
+			nextModal: () => {
+				solfaucetModal()
+			},
+		})
+	}
+
+	const solfaucetModal = () => {
+		const INDEX = 1
+		openModal(Modal, {
+			...INSTRUCTIONS[INDEX],
+			prevModal: () => {
+				copyWalletModal()
+			},
+			nextModal: () => {
+				walletNetworkModal()
+			},
+		})
+	}
+
+	const walletNetworkModal = () => {
+		const INDEX = 2
+		openModal(Modal, {
+			...INSTRUCTIONS[INDEX],
+			prevModal: () => {
+				solfaucetModal()
+			},
+			nextModal: () => {
+				selectNetworkModal()
+			},
+		})
+	}
+
+	const selectNetworkModal = () => {
+		const INDEX = 3
+		openModal(Modal, {
+			...INSTRUCTIONS[INDEX],
+			nextBtnDisabled: true,
+			prevModal: () => {
+				walletNetworkModal()
+			},
+			nextModal: () => {},
+		})
+	}
 
 	const connectWallet = async () => {
 		const { solana } = window
@@ -27,14 +81,24 @@
 
 <svelte:head>
 	<title>Tweeta</title>
-	<meta name="title" content="Tweeta" />
-	<meta property="og:title" content="Tweeta" />
 </svelte:head>
 
 <div class="container">
 	<header>
 		<p>🐦 Tweeta</p>
+
+		<button
+			on:click={() => {
+				copyWalletModal()
+			}}
+		>
+			** Instructions to fund wallet **
+		</button>
 	</header>
+
+	<Modals>
+		<div slot="backdrop" class="backdrop" transition:fade on:click={closeAllModals} />
+	</Modals>
 
 	<!-- @todo: add option to disconnect wallet -->
 
@@ -55,9 +119,17 @@
 </div>
 
 <style>
-	header {
+	header p {
 		font-size: 50px;
 		font-weight: bold;
+	}
+
+	header button {
+		font-size: 0.85rem;
+		background: -webkit-linear-gradient(left, #171b22, #13161f);
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
 	}
 
 	header,
@@ -75,12 +147,20 @@
 		font-weight: bold;
 	}
 
+	.backdrop {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		background: rgba(0, 0, 0, 0.5);
+	}
+
 	.container {
 		min-height: 100vh;
 		background-color: #1a202c;
-		overflow: scroll;
+		overflow: hidden;
 		color: #dadfdd;
-		padding-left: 4px;
 	}
 
 	.sub-text {

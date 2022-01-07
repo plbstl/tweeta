@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-	<title>{title} - Andrew Osamaiye</title>
+	<title>{title} - Tweeta</title>
 </svelte:head>
 
 <section>

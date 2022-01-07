@@ -1,3 +1,9 @@
+code {
+	background-color: #14171f;
+	padding: 0 4px;
+	display: inline-block;
+}
+
 .authed-container {
 	height: 100%;
 	display: flex;
@@ -40,6 +46,26 @@
 	padding-right: 1rem;
 	font-size: 20px;
 	height: 50px;
+}
+
+.instruction-button {
+	background: -webkit-linear-gradient(left, #1a1f29, #14171f);
+	background-size: 200% 200%;
+	animation: gradient-animation 4s ease infinite;
+	box-shadow: 0 0 2px #383838;
+	font-size: 14px;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	height: 50px;
+}
+
+.instruction-button:disabled {
+	background: transparent;
+	cursor: not-allowed;
+}
+
+.instruction-link {
+	color: aliceblue;
 }
 
 .toast-wrap {

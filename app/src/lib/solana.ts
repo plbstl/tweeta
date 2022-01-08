@@ -1,14 +1,16 @@
 import { Program, Provider, web3 } from '@project-serum/anchor'
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { toast } from '@zerodevx/svelte-toast'
+import { _keypair } from './keypair.json'
 import { tweets, verifiedAccount } from './stores'
 import { IDL } from './types'
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3
 
-// Create a keypair for the account that will hold the GIF data.
-const baseAccount = Keypair.generate()
+// Create a keypair for the account that will hold the tweets.
+const secret = new Uint8Array(Object.values(_keypair.secretKey))
+const baseAccount = Keypair.fromSecretKey(secret)
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(IDL.metadata.address)

@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("7SPdoakUcKhbw6GunJ5i3p5KRBcUF7etBQ8yxmsEN3VV");
+declare_id!("9GUcf7ZYVkn2xXM7ZRpTnZu35ktfvXT4Q2RgG2dDXGgs");
 
 #[program]
 pub mod tweeta {

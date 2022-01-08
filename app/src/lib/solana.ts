@@ -1,9 +1,9 @@
 import { Program, Provider, web3 } from '@project-serum/anchor'
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
 import { toast } from '@zerodevx/svelte-toast'
+import { IDL } from './idl'
 import { _keypair } from './keypair.json'
 import { tweets, verifiedAccount } from './stores'
-import { IDL } from './types'
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3

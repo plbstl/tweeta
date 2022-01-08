@@ -59,7 +59,7 @@ export const getTweets = async (): Promise<void> => {
 		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
 
 		console.log('Got the account', account)
-		tweets.set(account.tweetsList as Tweet[])
+		tweets.set(account.tweets as Tweet[])
 	} catch (error) {
 		console.log('Error in getTweets: ', error)
 		tweets.set([])

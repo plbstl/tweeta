@@ -1,4 +1,3 @@
-import { INSTRUCTIONS } from '$lib/data'
 import type { SvelteComponentTyped } from 'svelte'
 import { openModal } from 'svelte-modals'
 
@@ -70,3 +69,40 @@ export const selectNetworkModal = (Modal: ModalTyped): void => {
 		},
 	})
 }
+
+export const INSTRUCTIONS = [
+	{
+		title: `Copy Wallet Address`,
+		steps: [
+			'Launch the Phantom Wallet extension.',
+			'Click on your wallet name to copy the wallet address.',
+		],
+		imageUrl: '/assets/copy-address.png',
+	},
+	{
+		title: `Visit solfaucet`,
+		steps: [
+			`Go to <a href='https://solfaucet.com/' target='_blank' class='instruction-link'>https://solfaucet.com</a>`,
+			'Input your wallet address. Select <code>Testnet</code> or <code>Devnet</code>.',
+			'You will see a success confirmation if all goes well.',
+		],
+		imageUrl: '/assets/success-prompt.png',
+	},
+	{
+		title: `Change Wallet Network`,
+		steps: [
+			'Launch the Phantom Wallet extension.',
+			'Click on the <code>gear</code> icon to access your settings.',
+			'Open <code>Change Network</code> settings.',
+		],
+		imageUrl: '/assets/network-settings.png',
+	},
+	{
+		title: `Select Network`,
+		steps: [
+			'Select your preferred network (<code>Testnet</code> or <code>Devnet</code>).',
+			' Your balances will reflect the changes.',
+		],
+		imageUrl: '/assets/select-network.png',
+	},
+]

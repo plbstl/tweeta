@@ -28,7 +28,7 @@ describe('tweeta', () => {
 
 	it('Has fetched data from the account!', async () => {
 		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
-		console.log('--- Tweet Count:', account.totalTweets.toString())
+		console.log('--- Tweet Count:', account.tweetCount.toString())
 	})
 
 	it('Has added a tweet to the account!', async () => {
@@ -40,8 +40,8 @@ describe('tweeta', () => {
 		})
 		// Get the account to see change.
 		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
-		console.log('--- Tweet Count:', account.totalTweets.toString())
+		console.log('--- Tweet Count:', account.tweetCount.toString())
 		// Access tweets_list on the account!
-		console.log('--- Tweet List:', account.tweetsList)
+		console.log('--- Tweet List:', account.tweets)
 	})
 })

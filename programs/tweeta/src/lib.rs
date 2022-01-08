@@ -8,8 +8,8 @@ pub mod tweeta {
     pub fn initialize(ctx: Context<Initialize>) -> ProgramResult {
         // Get a reference to the account.
         let base_account = &mut ctx.accounts.base_account;
-        // Initialize total_tweets.
-        base_account.total_tweets = 0;
+        // Initialize tweet_count.
+        base_account.tweet_count = 0;
         Ok(())
     }
 
@@ -21,9 +21,9 @@ pub mod tweeta {
             tweet_content: tweet_content.to_string(),
             user_address: *user.to_account_info().key,
         };
-        // Add it to the tweets_list vector.
-        base_account.tweets_list.push(tweet);
-        base_account.total_tweets += 1;
+        // Add it to the tweets vector.
+        base_account.tweets.push(tweet);
+        base_account.tweet_count += 1;
         Ok(())
     }
 }
@@ -56,6 +56,6 @@ pub struct TweetStruct {
 // Tell Solana what we want to store on this account.
 #[account]
 pub struct BaseAccount {
-    pub total_tweets: u64,
-    pub tweets_list: Vec<TweetStruct>,
+    pub tweet_count: u64,
+    pub tweets: Vec<TweetStruct>,
 }

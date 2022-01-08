@@ -1,7 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 
 interface Tweet {
-	name: string
+	address: string
 	content: string
 }
 

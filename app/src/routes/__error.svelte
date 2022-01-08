@@ -1,14 +1,13 @@
 <script context="module" lang="ts">
-	import type { Load } from '@sveltejs/kit'
+	import { dev } from '$app/env'
+	import type { ErrorLoad } from '@sveltejs/kit'
 
-	export const load: Load = ({ error, status }: any) => ({
+	export const load: ErrorLoad = ({ error, status }) => ({
 		props: { error, status },
 	})
 </script>
 
 <script lang="ts">
-	import { dev } from '$app/env'
-
 	export let status: number
 	export let error: { message: string; frame: string; stack: string }
 

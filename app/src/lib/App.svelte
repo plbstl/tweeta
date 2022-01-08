@@ -1,54 +1,39 @@
 <script lang="ts">
-	import Avatar from '$lib/Avatar.svelte'
-	import { toast } from '@zerodevx/svelte-toast'
-	import { TEST_TWEETS } from './data'
-	import { walletAddress } from './stores'
+	import { onMount } from 'svelte'
+	import Avatar from './Avatar.svelte'
+	import { getTweets, sendTweet } from './solana'
+	import { tweets, walletAddress } from './stores'
 
-	let name: string
 	let content = ''
-	let tweets: Tweet[] = []
 
-	const sendTweet = async () => {
-		content = content.trim()
-
-		if (content.length < 1) {
-			toast.push('Tweet cannot be empty fam!')
-			return
-		}
-
-		tweets = [{ name, content }, ...tweets]
-		toast.push(`You tweeted "${content}"`)
-		content = ''
-	}
-
-	walletAddress.subscribe((value) => {
-		if (value) {
-			name = value
-			console.log('Fetching tweets ...')
-
-			// Call Solana program here.
-
-			// Set state
-			tweets = TEST_TWEETS
-		}
+	onMount(async () => {
+		await getTweets()
 	})
 </script>
 
 <section>
-	<form on:submit|preventDefault={sendTweet}>
+	<form
+		on:submit|preventDefault={async () => {
+			const sent = await sendTweet($walletAddress, content)
+			if (sent) {
+				content = ''
+			}
+		}}
+	>
 		<input type="text" bind:value={content} placeholder="What's happening ..." />
 		<button type="submit" class="cta-button submit-tweet-button">Tweet</button>
 	</form>
 
-	{#each tweets as { name, content }}
+	{#each $tweets as { address, content }}
 		<article>
 			<a
 				class="owner"
-				href={`https://explorer.solana.com/address/${name}/domains?cluster=testnet`}
+				href={`https://explorer.solana.com/address/${address}/domains?cluster=testnet`}
+				rel="external"
 			>
 				<Avatar
 					size={25}
-					{name}
+					{address}
 					colors={[
 						'#F7EAD9',
 						'#6D997A',
@@ -61,7 +46,7 @@
 					]}
 				/>
 
-				<h5>{name}</h5>
+				<h5>{address}</h5>
 			</a>
 			<p>{content}</p>
 		</article>

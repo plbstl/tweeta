@@ -22,8 +22,8 @@ code {
 	height: 45px;
 	border: 0;
 	width: auto;
-	padding-left: 40px;
-	padding-right: 40px;
+	padding-left: 32px;
+	padding-right: 32px;
 	border-radius: 10px;
 	cursor: pointer;
 	font-size: 16px;
@@ -46,6 +46,16 @@ code {
 	padding-right: 1rem;
 	font-size: 20px;
 	height: 50px;
+}
+
+.initialize-account-button {
+	background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
+	background-size: 200% 200%;
+	animation: gradient-animation 4s ease infinite;
+	margin-top: 2rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	font-size: 14px;
 }
 
 .instruction-button {

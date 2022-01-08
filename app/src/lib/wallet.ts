@@ -1,5 +1,6 @@
-import { walletAddress } from '$lib/stores'
+import { toast } from '@zerodevx/svelte-toast'
 import confetti from 'canvas-confetti'
+import { walletAddress } from './stores'
 
 export const connectWallet = async (): Promise<void> => {
 	const { solana } = window
@@ -33,7 +34,7 @@ export const checkIfWalletIsConnected = async (): Promise<void> => {
 				walletAddress.set(response.publicKey.toString())
 			}
 		} else {
-			alert('Solana object not found! Get a Phantom Wallet 👻')
+			toast.push('Solana object not found! Get a Phantom Wallet 👻')
 		}
 	} catch (error) {
 		console.error(error)

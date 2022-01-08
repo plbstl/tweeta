@@ -1,17 +1,13 @@
-<script lang="ts">
+<script context="module" lang="ts">
 	import App from '$lib/App.svelte'
 	import Modal from '$lib/Modal.svelte'
 	import { copyWalletModal } from '$lib/modals'
-	import { walletAddress } from '$lib/stores'
+	import { createTweetaAccount } from '$lib/solana'
+	import { verifiedAccount, walletAddress } from '$lib/stores'
 	import { connectWallet } from '$lib/wallet'
 	import { closeAllModals, Modals } from 'svelte-modals'
 	import { fade } from 'svelte/transition'
-
-	let walletAddress_value: string
-
-	walletAddress.subscribe((value) => {
-		walletAddress_value = value
-	})
+	export const prerender = true
 </script>
 
 <svelte:head>
@@ -35,16 +31,22 @@
 		<div slot="backdrop" class="backdrop" transition:fade on:click={closeAllModals} />
 	</Modals>
 
-	{#if walletAddress_value}
-		<App />
-	{:else}
-		<main>
+	<main>
+		{#if $walletAddress}
+			{#if $verifiedAccount}
+				<App />
+			{:else}
+				<button class="cta-button initialize-account-button" on:click={createTweetaAccount}>
+					Do One-Time Initialization For Tweeta Account
+				</button>
+			{/if}
+		{:else}
 			<p class="sub-text">Create tweets in the Metaverse! ✨</p>
 			<button class="cta-button connect-wallet-button" on:click={connectWallet}>
 				Connect to Wallet
 			</button>
-		</main>
-	{/if}
+		{/if}
+	</main>
 
 	<footer>
 		<p>built with ♥️ on Solana</p>

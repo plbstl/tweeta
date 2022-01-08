@@ -1,14 +1,14 @@
 <svelte:options immutable />
 
 <script lang="ts">
-	import { getBoolean, getContrast, getRandomColor, getUnit, hashCode } from '$lib/utils'
 	import { onMount } from 'svelte'
+	import { getBoolean, getContrast, getRandomColor, getUnit, hashCode } from './utils'
 
-	export let name: string
+	export let address: string
 	export let size: number
 	export let colors: string[]
-	let data = generateData(name, colors)
 
+	let data = generateData(address, colors)
 	const SIZE = 36
 
 	function generateData(name: string, colors: string[]) {
@@ -43,7 +43,7 @@
 	}
 
 	onMount(() => {
-		data = generateData(name, colors)
+		data = generateData(address, colors)
 	})
 </script>
 
@@ -55,7 +55,7 @@
 	width={size}
 	height={size}
 >
-	<title>{name}</title>
+	<title>{address}</title>
 	<mask id="mask__beam" maskUnits="userSpaceOnUse" x={0} y={0} width={SIZE} height={SIZE}>
 		<rect width={SIZE} height={SIZE} rx={SIZE * 2} fill="#FFFFFF" />
 	</mask>

@@ -57,12 +57,13 @@
 <style>
 	.owner {
 		display: flex;
-		width: fit-content;
-		place-items: end;
+		place-items: center;
 	}
 
 	article {
 		margin-top: 2rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	section {
@@ -74,12 +75,15 @@
 
 	h5 {
 		color: #5287ee;
-		margin: 1rem 0 0 0.25rem;
+		margin: 0 0 0 0.5rem;
 	}
 
 	p {
 		color: #ccc;
 		margin: 0.25rem;
+		text-align: initial;
+		font-size: 0.8rem;
+		padding: 0.25rem 0 0 1.25rem;
 	}
 
 	input[type='text'] {

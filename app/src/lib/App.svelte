@@ -28,8 +28,9 @@
 		<article>
 			<a
 				class="owner"
-				href={`https://explorer.solana.com/address/${userAddress}/domains?cluster=testnet`}
+				href={`https://explorer.solana.com/address/${userAddress}/domains?cluster=devnet`}
 				rel="external"
+				target="_blank"
 			>
 				<Avatar
 					size={25}

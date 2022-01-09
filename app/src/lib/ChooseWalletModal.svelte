@@ -15,13 +15,13 @@
 			<div class="actions">
 				<button
 					class="cta-button instruction-button"
-					on:click={() => connectWallet(window.solana)}
+					on:click={() => connectWallet(window.solana, 'Phantom')}
 				>
 					<img src="https://phantom.app/img/phantom-logo.svg" alt="Phantom" />
 				</button>
 				<button
 					class="cta-button instruction-button"
-					on:click={() => connectWallet(window.solflare)}
+					on:click={() => connectWallet(window.solflare, 'Solflare')}
 				>
 					<img
 						src="https://solflare.com/assets/logo-icon.26659b6d.svg"

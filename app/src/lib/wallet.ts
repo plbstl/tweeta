@@ -4,20 +4,18 @@ import { closeModal } from 'svelte-modals'
 import { isAddressVerified } from './solana'
 import { verifiedAccount, walletAddress } from './stores'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const connectWallet = async (walletExtension: any): Promise<void> => {
+export const connectWallet = async (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	walletExtension: any,
+	walletExtensionName: string
+): Promise<void> => {
 	if (!walletExtension) {
+		toast.push(`${walletExtensionName} is not installed! 🚨`)
 		return
 	}
 
-	try {
-		await walletExtension.connect()
-		closeModal()
-	} catch {
-		closeModal()
-		toast.push('Could not connect wallet. Sorry!')
-		return
-	}
+	await walletExtension.connect()
+	closeModal()
 
 	if (!walletExtension.isConnected) {
 		toast.push('Could not connect wallet. Sorry!')

@@ -90,7 +90,7 @@
 	}
 
 	.sub-text {
-		font-size: 25px;
+		font-size: 1.2rem;
 		font-weight: normal;
 	}
 </style>

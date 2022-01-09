@@ -74,7 +74,7 @@
 		padding: 16px;
 		background: #1a202c;
 		overflow-y: scroll;
-		height: 85%;
+		max-height: 85%;
 		width: 80%;
 		max-width: 700px;
 		pointer-events: auto;

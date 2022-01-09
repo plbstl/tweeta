@@ -5,12 +5,9 @@ import { IDL } from './idl'
 import { _keypair } from './keypair.json'
 import { tweets, verifiedAccount } from './stores'
 
-// SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3
-
 // Create a keypair for the account that will hold the tweets.
 const secret = new Uint8Array(Object.values(_keypair.secretKey))
-const baseAccount = Keypair.fromSecretKey(secret)
+const baseAccount = web3.Keypair.fromSecretKey(secret)
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(IDL.metadata.address)
@@ -36,11 +33,11 @@ export const createTweetaAccount = async (): Promise<void> => {
 		const provider = getProvider()
 		const program = new Program(IDL, programID, provider)
 		console.log('ping')
-		await program.rpc.initialize({
+		await program.rpc.initialize(provider.wallet.publicKey.toString(), {
 			accounts: {
 				baseAccount: baseAccount.publicKey,
 				user: provider.wallet.publicKey,
-				systemProgram: SystemProgram.programId,
+				systemProgram: web3.SystemProgram.programId,
 			},
 			signers: [baseAccount],
 		})
@@ -49,6 +46,19 @@ export const createTweetaAccount = async (): Promise<void> => {
 		await getTweets()
 	} catch (error) {
 		console.log('Error creating BaseAccount account:', error)
+	}
+}
+
+export const isAddressVerified = async (address: string): Promise<boolean> => {
+	try {
+		const provider = getProvider()
+		const program = new Program(IDL, programID, provider)
+		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
+		const verifiedAddresses = account.verifiedAddresses as string[]
+		return !!verifiedAddresses.find((va) => va === address)
+	} catch (error) {
+		console.log('Error getting verified status: ', error)
+		return false
 	}
 }
 
@@ -74,13 +84,25 @@ export const sendTweet = async (address: string, content: string): Promise<boole
 		return false
 	}
 
-	// @todo:
-	// haven't sent to solana network yet
-	tweets.update((olderTweets) => [{ address, content }, ...olderTweets])
+	try {
+		const provider = getProvider()
+		const program = new Program(IDL, programID, provider)
 
-	// if error
-	// toast.push('Cannot send tweet at the moment!')
+		const tweet = { address, content }
 
-	toast.push(`You tweeted "${content}"`)
-	return true
+		await program.rpc.addTweet(tweet, {
+			accounts: {
+				baseAccount: baseAccount.publicKey,
+				user: provider.wallet.publicKey,
+			},
+		})
+
+		tweets.update((olderTweets) => [tweet, ...olderTweets])
+		toast.push(`You tweeted "${content}"`)
+		return true
+	} catch (error) {
+		toast.push('Can not send tweet at the moment!')
+		console.log(error)
+		return false
+	}
 }

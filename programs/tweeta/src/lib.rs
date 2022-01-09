@@ -5,11 +5,13 @@ declare_id!("9GUcf7ZYVkn2xXM7ZRpTnZu35ktfvXT4Q2RgG2dDXGgs");
 #[program]
 pub mod tweeta {
     use super::*;
-    pub fn initialize(ctx: Context<Initialize>) -> ProgramResult {
+    pub fn initialize(ctx: Context<Initialize>, address: String) -> ProgramResult {
         // Get a reference to the account.
         let base_account = &mut ctx.accounts.base_account;
         // Initialize tweet_count.
         base_account.tweet_count = 0;
+        // Verify user wallet address.
+        base_account.verified_addresses.push(address);
         Ok(())
     }
 
@@ -58,4 +60,5 @@ pub struct TweetStruct {
 pub struct BaseAccount {
     pub tweet_count: u64,
     pub tweets: Vec<TweetStruct>,
+    pub verified_addresses: Vec<String>,
 }

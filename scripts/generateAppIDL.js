@@ -12,21 +12,11 @@ console.log('run `anchor deploy` before running this script')
 try {
 	let idl = readFileSync(srcPath, { encoding: 'utf8' })
 	idl = idl.replace(/BaseAccount/g, 'baseAccount')
-	writeFileSync(destPath, structureIDLFile(idl))
+
+	const fileContent = `export type Tweeta=${idl};export const IDL: Tweeta=${idl}`
+	writeFileSync(destPath, fileContent)
+
 	console.log('--- App IDL created:', DESTINATION)
 } catch (error) {
 	console.log('FAILED! Error:', error.message)
-}
-
-/**
- *
- * @param {string} idl
- * @returns Buffer
- */
-function structureIDLFile(idl) {
-	const idlBuffer = Buffer.from(idl)
-	const TweetaDeclaration = Buffer.from('export type Tweeta =')
-	const IDLDeclaration = Buffer.from('export const IDL: Tweeta =')
-	const semiColon = Buffer.from(';')
-	return Buffer.concat([TweetaDeclaration, idlBuffer, semiColon, IDLDeclaration, idlBuffer])
 }

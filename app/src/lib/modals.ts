@@ -12,12 +12,12 @@ export const copyWalletModal = (Modal: ModalTyped): void => {
 			return
 		},
 		nextModal: () => {
-			solfaucetModal(Modal)
+			requestAirdropModal(Modal)
 		},
 	})
 }
 
-export const solfaucetModal = (Modal: ModalTyped): void => {
+export const requestAirdropModal = (Modal: ModalTyped): void => {
 	const INDEX = 1
 	openModal(Modal, {
 		...INSTRUCTIONS[INDEX],
@@ -25,31 +25,31 @@ export const solfaucetModal = (Modal: ModalTyped): void => {
 			copyWalletModal(Modal)
 		},
 		nextModal: () => {
-			walletNetworkModal(Modal)
+			networkSettingsModal(Modal)
 		},
 	})
 }
 
-export const walletNetworkModal = (Modal: ModalTyped): void => {
+export const networkSettingsModal = (Modal: ModalTyped): void => {
 	const INDEX = 2
 	openModal(Modal, {
 		...INSTRUCTIONS[INDEX],
 		prevModal: () => {
-			solfaucetModal(Modal)
+			requestAirdropModal(Modal)
 		},
 		nextModal: () => {
-			selectNetworkModal(Modal)
+			changeNetworkModal(Modal)
 		},
 	})
 }
 
-export const selectNetworkModal = (Modal: ModalTyped): void => {
+export const changeNetworkModal = (Modal: ModalTyped): void => {
 	const INDEX = 3
 	openModal(Modal, {
 		...INSTRUCTIONS[INDEX],
 		nextBtnDisabled: true,
 		prevModal: () => {
-			walletNetworkModal(Modal)
+			networkSettingsModal(Modal)
 		},
 		nextModal: () => {
 			return
@@ -67,7 +67,7 @@ export const INSTRUCTIONS = [
 		imageUrl: '/assets/copy-address.png',
 	},
 	{
-		title: `Visit solfaucet`,
+		title: `Request Airdrop`,
 		steps: [
 			`Go to <a href='https://solfaucet.com/' target='_blank' class='instruction-link'>https://solfaucet.com</a>`,
 			'Input your wallet address. Select <code>Testnet</code> or <code>Devnet</code>.',
@@ -76,7 +76,7 @@ export const INSTRUCTIONS = [
 		imageUrl: '/assets/success-prompt.png',
 	},
 	{
-		title: `Change Wallet Network`,
+		title: `Go to Network Settings`,
 		steps: [
 			'Launch the Phantom Wallet extension.',
 			'Click on the <code>gear</code> icon to access your settings.',
@@ -85,7 +85,7 @@ export const INSTRUCTIONS = [
 		imageUrl: '/assets/network-settings.png',
 	},
 	{
-		title: `Select Network`,
+		title: `Change Network`,
 		steps: [
 			'Select your preferred network (<code>Testnet</code> or <code>Devnet</code>).',
 			' Your balances will reflect the changes.',

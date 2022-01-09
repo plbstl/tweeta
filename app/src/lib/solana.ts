@@ -69,7 +69,11 @@ export const getTweets = async (): Promise<void> => {
 		const program = new Program(IDL, programID, provider)
 		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
 
-		tweets.set(account.tweets as Tweet[])
+		// @todo: need timestamp
+		const chronologicalTweets = account.tweets as Tweet[]
+		chronologicalTweets.reverse()
+
+		tweets.set(chronologicalTweets)
 	} catch (error) {
 		console.log('Error retrieving tweets: ', error)
 		tweets.set([])

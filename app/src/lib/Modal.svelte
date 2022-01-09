@@ -1,17 +1,17 @@
 <svelte:options immutable />
 
-<script lang="ts">
+<script>
 	import Image from 'svelte-image'
 	import { fade } from 'svelte/transition'
 
-	export let isOpen: boolean
+	export let isOpen = false
 	export let backBtnDisabled = false
 	export let nextBtnDisabled = false
-	export let steps: string[]
-	export let imageUrl: string
-	export let title: string
-	export let prevModal: () => void
-	export let nextModal: () => void
+	export let steps = []
+	export let imageUrl = ''
+	export let title = ''
+	export let prevModal
+	export let nextModal
 </script>
 
 {#if isOpen}

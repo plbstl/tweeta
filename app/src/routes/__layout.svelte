@@ -3,6 +3,7 @@
 	import { verifiedAccount, walletAddress } from '$lib/stores'
 	import { checkIfWalletIsConnected } from '$lib/wallet'
 	import { SvelteToast } from '@zerodevx/svelte-toast'
+	import { Buffer } from 'buffer'
 	import 'sanitize.css'
 	import 'sanitize.css/assets.css'
 	import 'sanitize.css/forms.css'
@@ -13,6 +14,7 @@
 	import '../app.css'
 
 	onMount(() => {
+		window.Buffer = Buffer
 		const onLoad = async () => {
 			const isConnected = await checkIfWalletIsConnected()
 			if (isConnected) {

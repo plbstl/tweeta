@@ -8,7 +8,7 @@
 		"svelte-modals": "^1.0.4"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/adapter-vercel": "next",
 		"@sveltejs/kit": "next",
 		"@types/canvas-confetti": "^1.4.2",
 		"@typescript-eslint/eslint-plugin": "^5.9.0",

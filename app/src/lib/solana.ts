@@ -45,6 +45,7 @@ export const createTweetaAccount = async (): Promise<void> => {
 		console.log('Created a new BaseAccount w/ address:', baseAccount.publicKey.toString())
 		await getTweets()
 	} catch (error) {
+		toast.push('Try reloading page')
 		console.log('Error creating BaseAccount account:', error)
 	}
 }
@@ -68,18 +69,17 @@ export const getTweets = async (): Promise<void> => {
 		const program = new Program(IDL, programID, provider)
 		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
 
-		console.log('Got the account', account)
 		tweets.set(account.tweets as Tweet[])
 	} catch (error) {
-		console.log('Error in getTweets: ', error)
+		console.log('Error retrieving tweets: ', error)
 		tweets.set([])
 	}
 }
 
-export const sendTweet = async (address: string, content: string): Promise<boolean> => {
-	content = content.trim()
+export const sendTweet = async (userAddress: string, userInput: string): Promise<boolean> => {
+	userInput = userInput.trim()
 
-	if (content.length < 1) {
+	if (userInput.length < 1) {
 		toast.push('Tweet cannot be empty fam!')
 		return false
 	}
@@ -88,17 +88,14 @@ export const sendTweet = async (address: string, content: string): Promise<boole
 		const provider = getProvider()
 		const program = new Program(IDL, programID, provider)
 
-		const tweet = { address, content }
-
-		await program.rpc.addTweet(tweet, {
+		await program.rpc.addTweet(userInput, {
 			accounts: {
 				baseAccount: baseAccount.publicKey,
 				user: provider.wallet.publicKey,
 			},
 		})
 
-		tweets.update((olderTweets) => [tweet, ...olderTweets])
-		toast.push(`You tweeted "${content}"`)
+		tweets.update((olderTweets) => [{ userAddress, tweetContent: userInput }, ...olderTweets])
 		return true
 	} catch (error) {
 		toast.push('Can not send tweet at the moment!')

@@ -4,7 +4,7 @@
 	import { getTweets, sendTweet } from './solana'
 	import { tweets, walletAddress } from './stores'
 
-	let content = ''
+	let userInput = ''
 
 	onMount(async () => {
 		await getTweets()
@@ -14,26 +14,26 @@
 <section>
 	<form
 		on:submit|preventDefault={async () => {
-			const sent = await sendTweet($walletAddress, content)
+			const sent = await sendTweet($walletAddress, userInput)
 			if (sent) {
-				content = ''
+				userInput = ''
 			}
 		}}
 	>
-		<input type="text" bind:value={content} placeholder="What's happening ..." />
+		<input type="text" bind:value={userInput} placeholder="What's happening ..." />
 		<button type="submit" class="cta-button submit-tweet-button">Tweet</button>
 	</form>
 
-	{#each $tweets as { address, content }}
+	{#each $tweets as { userAddress, tweetContent }}
 		<article>
 			<a
 				class="owner"
-				href={`https://explorer.solana.com/address/${address}/domains?cluster=testnet`}
+				href={`https://explorer.solana.com/address/${userAddress}/domains?cluster=testnet`}
 				rel="external"
 			>
 				<Avatar
 					size={25}
-					{address}
+					address={userAddress}
 					colors={[
 						'#F7EAD9',
 						'#6D997A',
@@ -46,9 +46,9 @@
 					]}
 				/>
 
-				<h5>{address}</h5>
+				<h5>{userAddress}</h5>
 			</a>
-			<p>{content}</p>
+			<p>{tweetContent}</p>
 		</article>
 	{/each}
 </section>

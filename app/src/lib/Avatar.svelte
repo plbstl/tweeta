@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte'
 	import { getBoolean, getContrast, getRandomColor, getUnit, hashCode } from './utils'
 
-	export let address: string
+	export let address = 'placeholder'
 	export let size: number
 	export let colors: string[]
 

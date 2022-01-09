@@ -2,7 +2,7 @@
 	import { isAddressVerified } from '$lib/solana'
 	import { verifiedAccount, walletAddress } from '$lib/stores'
 	import { checkIfWalletIsConnected } from '$lib/wallet'
-	import { SvelteToast } from '@zerodevx/svelte-toast'
+	import { SvelteToast, toast } from '@zerodevx/svelte-toast'
 	import { Buffer } from 'buffer'
 	import 'sanitize.css'
 	import 'sanitize.css/assets.css'
@@ -18,10 +18,16 @@
 		const onLoad = async () => {
 			const isConnected = await checkIfWalletIsConnected()
 			if (isConnected) {
+				toast.push('Connected!')
 				const status = await isAddressVerified($walletAddress)
 				verifiedAccount.set(status)
 			}
 		}
+
+		verifiedAccount.subscribe((isVerified) => {
+			isVerified && toast.push('Verified!')
+		})
+
 		window.addEventListener('load', onLoad)
 		return () => window.removeEventListener('load', onLoad)
 	})

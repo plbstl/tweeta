@@ -1,8 +1,8 @@
 /// <reference types="@sveltejs/kit" />
 
 interface Tweet {
-	address: string
-	content: string
+	tweetContent: string
+	userAddress: string
 }
 
 declare interface Window {

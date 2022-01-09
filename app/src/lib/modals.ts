@@ -1,20 +1,7 @@
 import type { SvelteComponentTyped } from 'svelte'
 import { openModal } from 'svelte-modals'
 
-type ModalTyped = new (...args: unknown[]) => SvelteComponentTyped<
-	{
-		isOpen: boolean
-		backBtnDisabled?: boolean
-		nextBtnDisabled?: boolean
-		steps: string[]
-		imageUrl: string
-		title: string
-		prevModal: () => void
-		nextModal: () => void
-	},
-	unknown,
-	unknown
->
+type ModalTyped = new (...args: unknown[]) => SvelteComponentTyped<unknown, unknown, unknown>
 
 export const copyWalletModal = (Modal: ModalTyped): void => {
 	const INDEX = 0

@@ -10,9 +10,14 @@ export const connectWallet = async (walletExtension: any): Promise<void> => {
 		return
 	}
 
-	await walletExtension.connect()
-
-	closeModal()
+	try {
+		await walletExtension.connect()
+		closeModal()
+	} catch {
+		closeModal()
+		toast.push('Could not connect wallet. Sorry!')
+		return
+	}
 
 	if (!walletExtension.isConnected) {
 		toast.push('Could not connect wallet. Sorry!')

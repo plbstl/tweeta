@@ -14,47 +14,45 @@
 	<title>Tweeta</title>
 </svelte:head>
 
-<div class="container">
-	<header>
-		<p>🐦 Tweeta</p>
+<header>
+	<h1>🐦 Tweeta</h1>
 
-		<button
-			on:click={() => {
-				copyWalletModal(Modal)
-			}}
-		>
-			** Instructions to fund wallet **
-		</button>
-	</header>
+	<button
+		on:click={() => {
+			copyWalletModal(Modal)
+		}}
+	>
+		** Instructions to fund wallet **
+	</button>
+</header>
 
-	<Modals>
-		<div slot="backdrop" class="backdrop" transition:fade on:click={closeAllModals} />
-	</Modals>
+<Modals>
+	<div slot="backdrop" class="backdrop" transition:fade on:click={closeAllModals} />
+</Modals>
 
-	<main>
-		{#if $walletAddress}
-			{#if $verifiedAccount}
-				<App />
-			{:else}
-				<button class="cta-button initialize-account-button" on:click={createTweetaAccount}>
-					Do One-Time Initialization For Tweeta Account
-				</button>
-			{/if}
+<main>
+	{#if $walletAddress}
+		{#if $verifiedAccount}
+			<App />
 		{:else}
-			<p class="sub-text">Create tweets in the Metaverse! ✨</p>
-			<button class="cta-button connect-wallet-button" on:click={connectWallet}>
-				Connect to Wallet
+			<button class="cta-button initialize-account-button" on:click={createTweetaAccount}>
+				Do One-Time Initialization For Tweeta Account
 			</button>
 		{/if}
-	</main>
+	{:else}
+		<p class="sub-text">Create tweets in the Metaverse! ✨</p>
+		<button class="cta-button connect-wallet-button" on:click={connectWallet}>
+			Connect to Wallet
+		</button>
+	{/if}
+</main>
 
-	<footer>
-		<p>built with ♥️ on Solana</p>
-	</footer>
-</div>
+<footer>
+	<p>built with ♥️ on Solana</p>
+</footer>
 
 <style>
-	header p {
+	header h1 {
 		font-size: 50px;
 		font-weight: bold;
 	}
@@ -89,13 +87,6 @@
 		right: 0;
 		left: 0;
 		background: rgba(0, 0, 0, 0.5);
-	}
-
-	.container {
-		min-height: 100vh;
-		background-color: #1a202c;
-		overflow: hidden;
-		color: #dadfdd;
 	}
 
 	.sub-text {

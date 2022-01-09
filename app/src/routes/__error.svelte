@@ -21,6 +21,10 @@
 	<title>{title} - Tweeta</title>
 </svelte:head>
 
+<header>
+	<p><a href="/">🐦 Tweeta</a></p>
+</header>
+
 <section>
 	<h1>{title}</h1>
 
@@ -37,6 +41,17 @@
 <style>
 	section {
 		margin: 1rem;
+	}
+
+	header {
+		font-size: 50px;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	header a {
+		text-decoration: none;
+		color: #dadfdd;
 	}
 
 	h1 {

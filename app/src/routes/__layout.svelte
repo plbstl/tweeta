@@ -37,4 +37,6 @@
 	<SvelteToast />
 </div>
 
-<slot />
+<div class="container">
+	<slot />
+</div>

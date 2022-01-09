@@ -1,47 +1,37 @@
 import { toast } from '@zerodevx/svelte-toast'
 import confetti from 'canvas-confetti'
-import { walletAddress } from './stores'
+import { closeModal } from 'svelte-modals'
+import { isAddressVerified } from './solana'
+import { verifiedAccount, walletAddress } from './stores'
 
-export const connectWallet = async (): Promise<void> => {
-	const { solana } = window
-
-	if (solana) {
-		const response = await solana.connect()
-		console.log('Connected with Public Key:', response.publicKey.toString())
-		walletAddress.set(response.publicKey.toString())
-		confetti({
-			particleCount: 100,
-			spread: 150,
-			origin: { y: 0 },
-		})
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const connectWallet = async (walletExtension: any): Promise<void> => {
+	if (!walletExtension) {
+		return
 	}
-}
 
-export const checkIfWalletIsConnected = async (): Promise<boolean> => {
-	try {
-		const { solana } = window
+	await walletExtension.connect()
 
-		if (!solana) {
-			toast.push('Solana object not found! Get a Phantom Wallet 👻')
-			return false
-		}
+	closeModal()
 
-		if (!solana.isPhantom) {
-			return false
-		}
-		console.log('Phantom wallet found!')
-
-		/*
-		 * The solana object gives us a function that will allow us to connect
-		 * directly with the user's wallet!
-		 */
-		const response = await solana.connect({ onlyIfTrusted: true })
-		console.log('Connected with Public Key:', response.publicKey.toString())
-		walletAddress.set(response.publicKey.toString())
-
-		return true
-	} catch (error) {
-		console.error(error)
-		return false
+	if (!walletExtension.isConnected) {
+		toast.push('Could not connect wallet. Sorry!')
+		return
 	}
+
+	const publicKey = walletExtension.publicKey.toString()
+	walletAddress.set(publicKey)
+
+	toast.push('Connected!')
+	console.log('Connected with Public Key:', publicKey)
+
+	// check verification status
+	const isVerified = await isAddressVerified(publicKey)
+	verifiedAccount.set(isVerified)
+
+	confetti({
+		particleCount: 100,
+		spread: 150,
+		origin: { y: 0 },
+	})
 }

@@ -1,12 +1,13 @@
 <script context="module" lang="ts">
 	import App from '$lib/App.svelte'
+	import ChooseWalletModal from '$lib/ChooseWalletModal.svelte'
 	import Modal from '$lib/Modal.svelte'
 	import { copyWalletModal } from '$lib/modals'
 	import { createTweetaAccount } from '$lib/solana'
 	import { verifiedAccount, walletAddress } from '$lib/stores'
-	import { connectWallet } from '$lib/wallet'
-	import { closeAllModals, Modals } from 'svelte-modals'
+	import { closeAllModals, Modals, openModal } from 'svelte-modals'
 	import { fade } from 'svelte/transition'
+
 	export const prerender = true
 </script>
 
@@ -41,7 +42,10 @@
 		{/if}
 	{:else}
 		<p class="sub-text">Create tweets in the Metaverse! ✨</p>
-		<button class="cta-button connect-wallet-button" on:click={connectWallet}>
+		<button
+			class="cta-button connect-wallet-button"
+			on:click={() => openModal(ChooseWalletModal)}
+		>
 			Connect to Wallet
 		</button>
 	{/if}

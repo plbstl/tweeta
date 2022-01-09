@@ -6,7 +6,3 @@ node_modules
 .env
 .env.*
 !.env.example
-
-# ---
-keypair.json
-idl.ts

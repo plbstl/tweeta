@@ -21,8 +21,15 @@ const opts = {
 }
 
 const getProvider = () => {
+	// lets say Phantom by default.
+	let walletExtension = window.solana
+
+	if (window.solflare.isConnected) {
+		walletExtension = window.solflare
+	}
+
 	const connection = new Connection(network, opts.preflightCommitment)
-	const provider = new Provider(connection, window.solana, {
+	const provider = new Provider(connection, walletExtension, {
 		preflightCommitment: opts.preflightCommitment,
 	})
 	return provider
@@ -58,7 +65,9 @@ export const createTweetaAccount = async (): Promise<void> => {
 	try {
 		const provider = getProvider()
 		const program = new Program(IDL, programID, provider)
+
 		console.log('ping')
+
 		await program.rpc.initialize(provider.wallet.publicKey.toString(), {
 			accounts: {
 				baseAccount: baseAccount.publicKey,
@@ -67,8 +76,10 @@ export const createTweetaAccount = async (): Promise<void> => {
 			},
 			signers: [baseAccount],
 		})
+
 		verifiedAccount.set(true)
 		console.log('Created a new BaseAccount w/ address:', baseAccount.publicKey.toString())
+
 		await getTweets()
 	} catch (error) {
 		toast.push('Try reloading page')

@@ -30,8 +30,12 @@ export const connectWallet = async (
 
 	// check verification status
 	const isVerified = await isAddressVerified(publicKey)
-	verifiedAccount.set(isVerified)
 
+	if (!isVerified) {
+		return
+	}
+
+	verifiedAccount.set(isVerified)
 	confetti({
 		particleCount: 100,
 		spread: 150,

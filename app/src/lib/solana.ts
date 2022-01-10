@@ -3,7 +3,7 @@ import { clusterApiUrl, Connection, PublicKey, Transaction } from '@solana/web3.
 import { toast } from '@zerodevx/svelte-toast'
 import { IDL } from './idl'
 import { _keypair } from './keypair.json'
-import { tweets, verifiedAccount } from './stores'
+import { tweets } from './stores'
 
 // Create a keypair for the account that will hold the tweets.
 const secret = new Uint8Array(Object.values(_keypair.secretKey))
@@ -57,45 +57,6 @@ export const sendSol = async (amount: number): Promise<boolean> => {
 		toast.push(`Failed to send!`)
 		console.log('Cannot send solana:', error)
 
-		return false
-	}
-}
-
-export const createTweetaAccount = async (): Promise<void> => {
-	try {
-		const provider = getProvider()
-		const program = new Program(IDL, programID, provider)
-
-		console.log('ping')
-
-		await program.rpc.initialize(provider.wallet.publicKey.toString(), {
-			accounts: {
-				baseAccount: baseAccount.publicKey,
-				user: provider.wallet.publicKey,
-				systemProgram: web3.SystemProgram.programId,
-			},
-			signers: [baseAccount],
-		})
-
-		verifiedAccount.set(true)
-		console.log('Created a new BaseAccount w/ address:', baseAccount.publicKey.toString())
-
-		await getTweets()
-	} catch (error) {
-		toast.push('Try reloading page')
-		console.log('Error creating BaseAccount account:', error)
-	}
-}
-
-export const isAddressVerified = async (address: string): Promise<boolean> => {
-	try {
-		const provider = getProvider()
-		const program = new Program(IDL, programID, provider)
-		const account = await program.account.baseAccount.fetch(baseAccount.publicKey)
-		const verifiedAddresses = account.verifiedAddresses as string[]
-		return !!verifiedAddresses.find((va) => va === address)
-	} catch (error) {
-		console.log('Error getting verified status: ', error)
 		return false
 	}
 }

@@ -1,8 +1,7 @@
 import { toast } from '@zerodevx/svelte-toast'
 import confetti from 'canvas-confetti'
 import { closeModal } from 'svelte-modals'
-import { isAddressVerified } from './solana'
-import { verifiedAccount, walletAddress } from './stores'
+import { walletAddress } from './stores'
 
 export const connectWallet = async (
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,14 +27,6 @@ export const connectWallet = async (
 	toast.push('Connected!')
 	console.log('Connected with Public Key:', publicKey)
 
-	// check verification status
-	const isVerified = await isAddressVerified(publicKey)
-
-	if (!isVerified) {
-		return
-	}
-
-	verifiedAccount.set(isVerified)
 	confetti({
 		particleCount: 100,
 		spread: 150,

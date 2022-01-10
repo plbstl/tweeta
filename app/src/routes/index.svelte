@@ -3,8 +3,7 @@
 	import ChooseWalletModal from '$lib/ChooseWalletModal.svelte'
 	import Modal from '$lib/Modal.svelte'
 	import { copyWalletModal } from '$lib/modals'
-	import { createTweetaAccount } from '$lib/solana'
-	import { verifiedAccount, walletAddress } from '$lib/stores'
+	import { walletAddress } from '$lib/stores'
 	import { closeAllModals, Modals, openModal } from 'svelte-modals'
 	import { fade } from 'svelte/transition'
 
@@ -33,13 +32,7 @@
 
 <main>
 	{#if $walletAddress}
-		{#if $verifiedAccount}
-			<App />
-		{:else}
-			<button class="cta-button initialize-account-button" on:click={createTweetaAccount}>
-				Do One-Time Initialization For Tweeta Account
-			</button>
-		{/if}
+		<App />
 	{:else}
 		<p class="sub-text">Create tweets in the Metaverse! ✨</p>
 		<button

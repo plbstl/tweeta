@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { verifiedAccount } from '$lib/stores'
-	import { SvelteToast, toast } from '@zerodevx/svelte-toast'
+	import { SvelteToast } from '@zerodevx/svelte-toast'
 	import { Buffer } from 'buffer'
 	import 'sanitize.css'
 	import 'sanitize.css/assets.css'
@@ -13,10 +12,6 @@
 
 	onMount(() => {
 		window.Buffer = Buffer
-
-		verifiedAccount.subscribe((isVerified) => {
-			isVerified && toast.push('Verified!')
-		})
 	})
 </script>
 

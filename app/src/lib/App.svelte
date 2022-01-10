@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import Avatar from './Avatar.svelte'
-	import { getTweets, sendTweet } from './solana'
+	import { getTweets, sendSol, sendTweet } from './solana'
 	import { tweets, walletAddress } from './stores'
 
 	let userInput = ''
+	let solAmount: number
 
 	onMount(async () => {
 		await getTweets()
@@ -22,6 +23,18 @@
 	>
 		<input type="text" bind:value={userInput} placeholder="What's happening ..." />
 		<button type="submit" class="cta-button submit-tweet-button">Tweet</button>
+	</form>
+
+	<form
+		on:submit|preventDefault={async () => {
+			const sent = await sendSol(solAmount)
+			if (sent) {
+				solAmount = null
+			}
+		}}
+	>
+		<input type="number" bind:value={solAmount} placeholder="Amount" />
+		<button type="submit" class="cta-button submit-sol-button">Send</button>
 	</form>
 
 	{#each $tweets as { userAddress, tweetContent }}
@@ -86,17 +99,24 @@
 		padding: 0.25rem 0 0 1.25rem;
 	}
 
-	input[type='text'] {
+	input {
 		display: inline-block;
+		background-color: rgba(0, 0, 0, 0.25);
 		color: white;
+		border: none;
+	}
+
+	input[type='text'] {
 		padding: 10px;
 		width: 70%;
 		height: 60px;
 		font-size: 16px;
-		box-sizing: border-box;
-		background-color: rgba(0, 0, 0, 0.25);
-		border: none;
 		border-radius: 10px;
 		margin: 50px auto;
+	}
+
+	input[type='number'] {
+		padding: 6px 10px;
+		font-size: 11px;
 	}
 </style>

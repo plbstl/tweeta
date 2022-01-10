@@ -42,6 +42,17 @@ code {
 	height: 50px;
 }
 
+.submit-sol-button {
+	background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
+	background-size: 200% 200%;
+	animation: gradient-animation 4s ease infinite;
+	margin-left: 10px;
+	height: fit-content;
+	font-size: 11px;
+	padding: 6px 8px;
+	border-radius: 10%;
+}
+
 .initialize-account-button {
 	background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
 	background-size: 200% 200%;

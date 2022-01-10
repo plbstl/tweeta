@@ -1,5 +1,5 @@
 import { Program, Provider, web3 } from '@project-serum/anchor'
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js'
+import { clusterApiUrl, Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { toast } from '@zerodevx/svelte-toast'
 import { IDL } from './idl'
 import { _keypair } from './keypair.json'
@@ -26,6 +26,32 @@ const getProvider = () => {
 		preflightCommitment: opts.preflightCommitment,
 	})
 	return provider
+}
+
+export const sendSol = async (amount: number): Promise<boolean> => {
+	const SOLANA = 1_000_000_000
+
+	try {
+		const provider = getProvider()
+		const transaction = new Transaction().add(
+			web3.SystemProgram.transfer({
+				programId: programID,
+				fromPubkey: provider.wallet.publicKey,
+				toPubkey: new PublicKey('FiSpzZiv4FQ1FKrseUnucDGdBCmaY5evAcJmybAQjjTm'),
+				lamports: amount * SOLANA,
+			})
+		)
+
+		await provider.send(transaction)
+		toast.push(`Sent!`)
+
+		return true
+	} catch (error) {
+		toast.push(`Failed to send!`)
+		console.log('Cannot send solana:', error)
+
+		return false
+	}
 }
 
 export const createTweetaAccount = async (): Promise<void> => {
